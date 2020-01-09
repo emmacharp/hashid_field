@@ -153,10 +153,9 @@ class FieldHashid_field extends Field implements ExportableField
         $hash = $hash->encode($entry_id);
 
         // Create hidden read-only input for storing the hash for submission
-        $label = Widget::Label($this->get('label'));
-
-        // Display the hash and appropriate messaging.
-        $label->appendChild(Widget::Input('fields'.$fieldnamePrefix.'['.$this->get('element_name').']'.$fieldnamePostfix, $data['value'], 'text', array('readonly' => 'readonly') ));
+        $label = Widget::Label();
+        $span = new XMLElement('span', $this->get('label'));
+        $label->appendChild($span);
 
         if (strlen($data['value']) === 0) {
             $label->appendChild('<p class="hash-field-box hash-info">'.__('The hash will be generated when the entry is saved.').'</p>');
@@ -166,10 +165,15 @@ class FieldHashid_field extends Field implements ExportableField
 
         // Error flagging
         if ($flagWithError != null) {
-            $wrapper->appendChild(Widget::Error($label, $flagWithError));
-        } else {
-            $wrapper->appendChild($label);
+            $label = Widget::Error($label, $flagWithError);
         }
+        
+        $wrapper->addClass('field-value-readonly');
+        $wrapper->appendChild($label);
+
+        // Display the hash and appropriate messaging.
+        $wrapper->appendChild(Widget::Input('fields'.$fieldnamePrefix.'['.$this->get('element_name').']'.$fieldnamePostfix, $data['value'], 'text', array('readonly' => 'readonly') ));
+
     }
 
     /*-------------------------------------------------------------------------
