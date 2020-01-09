@@ -50,11 +50,6 @@ class extension_Hashid_field extends Extension
     public function initaliseAdminPageHead($context)
     {
         $callback = Symphony::Engine()->getPageCallback();
-
-        // Add custom stylesheet to the publish page
-        if ($callback['driver'] == 'publish' && $callback['context']['page'] != 'index') {
-            Administration::instance()->Page->addStylesheetToHead(URL . '/extensions/hashid_field/assets/publish.hashid_field.css');
-        }
     }
 
     /*--------------------------------------------------------------------------
